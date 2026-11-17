@@ -1,0 +1,6 @@
+[
+  "Hooks/AxsHeadsetBridgeCardMain.xm",
+  "Sources/AxsHeadsetBridgeCardConfig.m",
+  "Sources/AxsHeadsetCardTimerController.m",
+  "Sources/AxsHeadsetCardTimerLog.m"
+]

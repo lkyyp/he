@@ -1,0 +1,141 @@
+{
+  "revision": 2,
+  "base_sha256": "f7cf520654de5d7ce78274d38fa056c30d175a9784686beaaa60469a75940ec5",
+  "kuwo_sha256": "1f1d2dad2380cbfdaaa57ea15a75771c04ab672d4826d56c1b99b7b64c9e5334",
+  "namespace_mapping": [
+    [
+      "AlexKuwoProbe",
+      "AxsHeadsetBridge"
+    ],
+    [
+      "alex_kuwoprobe",
+      "axs_headsetbridge"
+    ],
+    [
+      "com.alex.kuwoprobe",
+      "com.axs.headsetbridge"
+    ]
+  ],
+  "kuwo_files": [
+    "Sources/AlexKuwoProbeAudioStatus.h",
+    "Sources/AlexKuwoProbeAudioStatus.m",
+    "Sources/AlexKuwoProbeKuwoBackground.m",
+    "Sources/AlexKuwoProbeKuwoConfig.h",
+    "Sources/AlexKuwoProbeKuwoConfig.m",
+    "Sources/AlexKuwoProbeKuwoDiagnostics.h",
+    "Sources/AlexKuwoProbeKuwoDiagnostics.m",
+    "Sources/AlexKuwoProbeKuwoFlowTrace.h",
+    "Sources/AlexKuwoProbeKuwoFlowTrace.m",
+    "Sources/AlexKuwoProbeKuwoLog.m",
+    "Sources/AlexKuwoProbeKuwoMusic.m",
+    "Sources/AlexKuwoProbeKuwoPlayback.m",
+    "Sources/AlexKuwoProbeKuwoProcess.m",
+    "Sources/AlexKuwoProbeKuwoRuntime.h",
+    "Sources/AlexKuwoProbeKuwoSpringBoard.m"
+  ],
+  "wiring_patches": {
+    "Hooks/AxsHeadsetBridgeMain.xm": [
+      [
+        "#import \"AxsHeadsetBridgeKuwoDiagnostics.h\"\n#import \"AxsHeadsetBridgeKuwoFlowTrace.h\"\n\n%ctor {\n",
+        "#import \"AxsHeadsetBridgeKuwoDiagnostics.h\"\n#import \"AxsHeadsetBridgeKuwoFlowTrace.h\"\n#import \"AxsHeadsetBridgeAudioStatus.h\"\n\n%ctor {\n"
+      ],
+      [
+        "        [AxsHeadsetBridgeConfig axs_headsetbridge_shared];\n        dispatch_async(dispatch_get_main_queue(), ^{\n            if ([bundle isEqual:@\"com.yeelion.kwplayer\"]) axs_headsetbridge_kuwo_flowTraceStart();\n            if ([bundle isEqual:@\"com.yeelion.kwplayer\"]) axs_headsetbridge_kuwo_diagnosticsStart();\n            uint64_t diagnosticGateStarted=axs_headsetbridge_kuwo_profileBegin();\n            axs_headsetbridge_startGate();\n            axs_headsetbridge_kuwo_profileEnd(AxsHeadsetBridgeKuwoProfileStartupGate,diagnosticGateStarted,NO);\n            if ([bundle isEqual:@\"com.apple.springboard\"]) {\n                // Registration only when disabled; target gate owns each new connection.\n",
+        "        [AxsHeadsetBridgeConfig axs_headsetbridge_shared];\n        dispatch_async(dispatch_get_main_queue(), ^{\n            if ([bundle isEqual:@\"com.yeelion.kwplayer\"]) {\n                axs_headsetbridge_audioStatusStart();\n                axs_headsetbridge_kuwo_flowTraceStart();\n                axs_headsetbridge_kuwo_diagnosticsStart();\n            }\n            uint64_t diagnosticGateStarted=axs_headsetbridge_kuwo_profileBegin();\n            axs_headsetbridge_startGate();\n            axs_headsetbridge_kuwo_profileEnd(AxsHeadsetBridgeKuwoProfileStartupGate,diagnosticGateStarted,NO);\n            axs_headsetbridge_engineLog(@\"control\",@\"merge.preserved_baselines_ready\",@{@\"integration_revision\":@2,@\"kuwo_control_revision\":@1,@\"audio_status_revision\":@1,@\"package_version\":@\"5.8.8.1\"});\n            if ([bundle isEqual:@\"com.apple.springboard\"]) {\n                // Registration only when disabled; target gate owns each new connection.\n"
+      ]
+    ],
+    "Makefile": [
+      [
+        "    Sources/AxsHeadsetBridgeKuwoProcess.m \\\n    Sources/AxsHeadsetBridgeKuwoDiagnostics.m \\\n    Sources/AxsHeadsetBridgeKuwoFlowTrace.m\nAxsHeadsetBridge_CFLAGS = -fobjc-arc -I./Headers -I./Sources\nAxsHeadsetBridge_FRAMEWORKS = UIKit Foundation CoreFoundation AVFoundation MediaPlayer\nAxsHeadsetBridge_LIBRARIES = substrate\n\n# Card code never loads into either music app. Original music manifest unchanged.\nAxsHeadsetBridgeCard_FILES = \\\n    Hooks/AxsHeadsetBridgeCardMain.xm \\\n",
+        "    Sources/AxsHeadsetBridgeKuwoProcess.m \\\n    Sources/AxsHeadsetBridgeKuwoDiagnostics.m \\\n    Sources/AxsHeadsetBridgeKuwoFlowTrace.m \\\n    Sources/AxsHeadsetBridgeAudioStatus.m\nAxsHeadsetBridge_CFLAGS = -fobjc-arc -I./Sources\nAxsHeadsetBridge_FRAMEWORKS = UIKit Foundation CoreFoundation AVFoundation MediaPlayer AudioToolbox\nAxsHeadsetBridge_LIBRARIES = substrate\n\n# Card code is a separate target and never loads into either music app.\nAxsHeadsetBridgeCard_FILES = \\\n    Hooks/AxsHeadsetBridgeCardMain.xm \\\n"
+      ],
+      [
+        "    Sources/AxsHeadsetCardTimerController.m \\\n    Sources/AxsHeadsetCardTimerLog.m\nAxsHeadsetBridgeCard_CFLAGS = -fobjc-arc -I./Headers -I./Sources\nAxsHeadsetBridgeCard_FRAMEWORKS = UIKit Foundation CoreFoundation\nAxsHeadsetBridgeCard_LIBRARIES = substrate\n",
+        "    Sources/AxsHeadsetCardTimerController.m \\\n    Sources/AxsHeadsetCardTimerLog.m\nAxsHeadsetBridgeCard_CFLAGS = -fobjc-arc -I./Sources\nAxsHeadsetBridgeCard_FRAMEWORKS = UIKit Foundation CoreFoundation\nAxsHeadsetBridgeCard_LIBRARIES = substrate\n"
+      ]
+    ],
+    "source-manifest.json": [
+      [
+        "  \"Sources/AxsHeadsetBridgeKuwoProcess.m\",\n  \"Sources/AxsHeadsetBridgeKuwoDiagnostics.m\",\n  \"Sources/AxsHeadsetBridgeKuwoFlowTrace.m\"\n]",
+        "  \"Sources/AxsHeadsetBridgeKuwoProcess.m\",\n  \"Sources/AxsHeadsetBridgeKuwoDiagnostics.m\",\n  \"Sources/AxsHeadsetBridgeKuwoFlowTrace.m\",\n  \"Sources/AxsHeadsetBridgeAudioStatus.m\"\n]"
+      ]
+    ],
+    "control": [
+      [
+        "Replaces: com.axs.headsetbridge\nProvides: com.axs.headsetbridge\nConflicts: com.axs.headsetbridge, com.axs.cloudcoldprobe, com.axs.kuwocoldprobe, com.axs.headsetplay, com.axs.headsetcardtimer, com.axs.headsetplaycardtest, com.axs.closeactiondiagnostic, com.axs.headsetplaycarddiagnostic\n",
+        "Replaces: com.axs.headsetbridge\nProvides: com.axs.headsetbridge\nConflicts: com.alex.kuwoprobe, com.axs.headsetbridge, com.axs.cloudcoldprobe, com.axs.kuwocoldprobe, com.axs.headsetplay, com.axs.headsetcardtimer, com.axs.headsetplaycardtest, com.axs.closeactiondiagnostic, com.axs.headsetplaycarddiagnostic\n"
+      ]
+    ],
+    "build.sh": [
+      [
+        "fi\n\npython3 validate_branding.py\n\n# Validate every scheme before starting a build.\n",
+        "fi\n\npython3 validate_merge.py\n\n# Validate every scheme before starting a build.\n"
+      ]
+    ]
+  },
+  "kuwo_presentation_patches": {
+    "Sources/AxsHeadsetBridgeKuwoLog.m": [
+      [
+        "/Library/Logs/AxsHeadsetBridge-springboard.jsonl",
+        "/Library/Logs/HeadsetBridge-springboard.jsonl"
+      ],
+      [
+        "Documents/AxsHeadsetBridge-music.jsonl",
+        "Documents/HeadsetBridge-music.jsonl"
+      ]
+    ],
+    "Sources/AxsHeadsetBridgeKuwoProcess.m": [
+      [
+        "/Library/Logs/AxsHeadsetBridge-kuwo-system-runtime.json",
+        "/Library/Logs/HeadsetBridge-kuwo-system-runtime.json"
+      ]
+    ]
+  },
+  "declaration_cleanup": {
+    "Sources/AxsHeadsetBridgeCloudRuntime.h": [["void axs_headsetbridge_cloud_inventory(void);\n", ""]],
+    "Sources/AxsHeadsetBridgeKuwoRuntime.h": [["void axs_headsetbridge_kuwo_inventory(void);\n", ""]]
+  },
+  "archived_files": [
+    "BRANDING-REVIEW.md",
+    "BUILD-FIX.md",
+    "DECODER-REVIEW.md",
+    "DECODER-REVISION2.md",
+    "DECODER-flow1-results.md",
+    "FLOW-BUILD-NOTES.md",
+    "FLOW-REVIEW.md",
+    "FLOW-interface-review.md",
+    "HISTORY-merge1.md",
+    "HISTORY-merge2.md",
+    "HISTORY-merge3.md",
+    "LATEST-merged-analysis.md",
+    "LATEST-standalone-analysis.md",
+    "branding-baseline.json",
+    "branding-inverse.json",
+    "card-success-baseline.json",
+    "card_test_buildfix.py",
+    "card_test_discovery.py",
+    "card_test_timer.py",
+    "decodertrace-baseline.json",
+    "diagnostic-control-hashes.json",
+    "diagnostic-preserved-code.json",
+    "engine-origins.json",
+    "flowtrace-baseline.json",
+    "flowtrace-interface-evidence.json",
+    "kuwo-diagnostics-evidence.json",
+    "music-merge-baseline.json",
+    "relay-preserved-code.json",
+    "test_branding.py",
+    "test_card_integration.py",
+    "test_config_relay.py",
+    "test_decodertrace.py",
+    "test_diagnostic_diff.py",
+    "test_flowtrace.py",
+    "test_flowtrace_ci_version.py",
+    "test_flowtrace_model.py",
+    "test_kuwo_diagnostics.py",
+    "test_selection.py",
+    "validate.py",
+    "validate_branding.py",
+    "Headers/AxsHeadsetBridgePrivate.h"
+  ]
+}

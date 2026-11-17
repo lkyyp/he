@@ -1,0 +1,12 @@
+Package: com.alex.bluetoothenhance
+Name: 蓝牙增强
+Version: 5.8.8.1
+Architecture: iphoneos-arm
+Description: 蓝牙耳机自动播放，增加蓝牙弹窗收回时间调节，目前仅在网易云9.6.25酷我12.0.0真机测试，其他请等待更新
+Maintainer: Alex
+Author: Alex
+Section: Alex
+Depends: mobilesubstrate, preferenceloader
+Replaces: com.axs.headsetbridge
+Provides: com.axs.headsetbridge
+Conflicts: com.alex.kuwoprobe, com.axs.headsetbridge, com.axs.cloudcoldprobe, com.axs.kuwocoldprobe, com.axs.headsetplay, com.axs.headsetcardtimer, com.axs.headsetplaycardtest, com.axs.closeactiondiagnostic, com.axs.headsetplaycarddiagnostic

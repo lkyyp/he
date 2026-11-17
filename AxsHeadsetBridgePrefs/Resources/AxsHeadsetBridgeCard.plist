@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>title</key><string>弹窗时限</string>
+    <key>items</key>
+    <array>
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>footerText</key><string>独立控制弹窗自动关闭，不影响音乐自动续播。关闭后只取消待执行的弹窗关闭任务。</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSSwitchCell</string>
+            <key>label</key><string>启用弹窗时限</string>
+            <key>key</key><string>cardEnabled</string>
+            <key>defaults</key><string>com.axs.headsetbridge.card</string>
+            <key>default</key><true/>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>footerText</key><string>3–50 秒，默认 5 秒。拖动时预览，松手后保存；修改秒数从下一次识别到的弹窗开始生效。</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSTitleValueCell</string>
+            <key>cellClass</key><string>AxsHeadsetBridgeCardSliderCell</string>
+            <key>label</key><string>关闭秒数</string>
+            <key>key</key><string>cardSeconds</string>
+            <key>defaults</key><string>com.axs.headsetbridge.card</string>
+            <key>default</key><integer>5</integer>
+            <key>min</key><integer>3</integer>
+            <key>max</key><integer>50</integer>
+        </dict>
+    </array>
+</dict>
+</plist>

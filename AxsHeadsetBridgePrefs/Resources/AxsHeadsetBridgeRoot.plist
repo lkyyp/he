@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>title</key><string>蓝牙增强</string>
+    <key>items</key>
+    <array>
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>label</key><string>基本设置</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSSwitchCell</string>
+            <key>label</key><string>总开关</string>
+            <key>key</key><string>enabled</string>
+            <key>defaults</key><string>com.axs.headsetbridge</string>
+            <key>default</key><false/>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSLinkListCell</string>
+            <key>label</key><string>自动续播</string>
+            <key>key</key><string>selectedApp</string>
+            <key>defaults</key><string>com.axs.headsetbridge</string>
+            <key>default</key><string>cloud</string>
+            <key>detail</key><string>PSListItemsController</string>
+            <key>validValues</key>
+            <array>
+                <string>cloud</string>
+                <string>kuwo</string>
+            </array>
+            <key>validTitles</key>
+            <array>
+                <string>网易云音乐</string>
+                <string>酷我音乐</string>
+            </array>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSLinkCell</string>
+            <key>label</key><string>弹窗时限</string>
+            <key>detail</key><string>AxsHeadsetBridgeCardListController</string>
+        </dict>
+    </array>
+</dict>
+</plist>

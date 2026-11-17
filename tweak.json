@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "name": "HeadsetBridge",
+  "id": "headsetbridge",
+  "display_name": "蓝牙增强",
+  "author": "Alex",
+  "version": "5.8.8.1",
+  "class_prefix": "AxsHeadsetBridge",
+  "symbol_prefix": "axs_headsetbridge",
+  "package": "com.alex.bluetoothenhance",
+  "bundle": "com.apple.springboard",
+  "sdk_version": "16.5",
+  "minimum_ios": "14.0",
+  "preferences": true,
+  "slider": true,
+  "github_actions": true
+}
